@@ -4,12 +4,12 @@ require "capybara-pageobject/version"
 
 Gem::Specification.new do |s|
   s.name        = "capybara-pageobject"
-  s.version     = Capybara::Pageobject::VERSION
+  s.version     = Capybara::PageObject::VERSION
   s.authors     = ["dlewis"]
   s.email       = ["deepak.lewis@gmail.com"]
   s.homepage    = ""
   s.summary     = %q{Easily create page objects to abstract UI Pages}
-  s.description = %q{This gem makes it very simple to introduce page objects to your capybara-based functional tests}
+  s.description = %q{Introduce page objects to your capybara-based functional tests}
 
   s.rubyforge_project = "capybara-pageobject"
 
@@ -19,6 +19,10 @@ Gem::Specification.new do |s|
   s.require_paths = ["lib"]
 
   # specify any dependencies here; for example:
-  # s.add_development_dependency "rspec"
+  s.add_development_dependency "rspec"
+  s.add_development_dependency "mocha"
+  s.add_development_dependency("sinatra", [">= 0.9.4"])
+  s.add_development_dependency "capybara"
+
   s.add_runtime_dependency("capybara", [">= 1.0.0"])
 end
