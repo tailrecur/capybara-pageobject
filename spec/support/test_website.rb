@@ -7,12 +7,11 @@ class TestWebsite < Sinatra::Base
   set :static, true
 
   def page_with
-    content = yield
     <<-BODY
 <html>
 <body>
   <p>Hello World!!</p>
-  #{content}
+  #{yield}
 </body>
 </html>
     BODY
@@ -23,27 +22,38 @@ class TestWebsite < Sinatra::Base
   end
 
   get '/form' do
-    <<-FORM
-<div id="foo1">led zeppelin</div>
+    page_with do
+      <<-FORM
+<div id="attr1">led zeppelin</div>
+<div id="hidden_attr" style="display:none">the doors</div>
 <form>
-  <input type="text" id="bar1" value="Creedence Rlearwater Revival"/>
-  <input type="text" id="bar2"/>
+  <input type="text" id="field1" value="Creedence Rlearwater Revival"/>
+  <input type="text" id="hidden_field" style="display:none"/>
 <form>
-    FORM
+      FORM
+    end
   end
 
-  get '/redirect' do
-    redirect '/redirect_again'
-  end
-
-  get '/redirect_again' do
-    redirect '/landed'
-  end
-
-  get '/referer_base' do
-    '<a href="/get_referer">direct link</a>' +
-        '<a href="/redirect_to_get_referer">link via redirect</a>' +
-        '<form action="/get_referer" method="get"><input type="submit"></form>'
+  get '/form_with_rails_validation_errors' do
+    page_with do
+      <<-FORM
+<form accept-charset="UTF-8" action="/users" class="standard-form" id="registration-form" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" />
+  <input name="authenticity_token" type="hidden" value="xi5eg4oEiv3mng8ISy0qyYf/nB49pv0heJ93h3SrNtE=" /></div>
+    <ol>
+        <li class="text">
+            <div class="field_with_errors"><label for="user_email">Email Address</label></div>
+            <div class="field_with_errors"><input id="user_email" name="user[email]" size="30" title="Will be used as your username" type="text" value="" /><span class="error_message">can't be blank</span></div>
+						<span class="required">*</span>
+        </li>
+        <li class="text">
+            <div class="field_with_errors"><label for="user_password">Password</label></div>
+            <div class="field_with_errors"><input id="user_password" name="user[password]" size="30" title="At least 8 characters" type="password" /><span class="error_message">doesn't match confirmation</span></div><span class="required">*</span>
+        </li>
+        <li class="submit"><input id="register_submit" name="commit" type="submit" value="Register" /></li>
+    </ol>
+</form>
+      FORM
+    end
   end
 end
 

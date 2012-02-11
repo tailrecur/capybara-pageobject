@@ -1,6 +1,10 @@
+require 'capybara/dsl'
+
 module Capybara
   module PageObject
     class Attribute < Element
+      include Capybara::DSL
+
       def_delegators :element_value, :blank?, :==, :include?, :to_s
       def_delegators :element, :set
 

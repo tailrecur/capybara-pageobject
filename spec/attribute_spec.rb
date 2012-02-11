@@ -1,31 +1,32 @@
 require 'spec_helper'
 
+def attribute(selector)
+  Capybara::PageObject::Attribute.new(capybara_page, "attr", selector)
+end
+
 describe "Attribute" do
   before(:each) do
     capybara_page.visit("/form")
   end
 
   describe "read value" do
-    it "should read text value if attribute is a non-form field" do
-      attribute = Capybara::PageObject::Attribute.new(capybara_page, "attr1", "#foo1")
-      capybara_page.visit("/form")
-      attribute.should == "led zeppelin"
-    end
-
-    it "should read value if attribute is a form field" do
-      attribute = Capybara::PageObject::Attribute.new(capybara_page, "field1", "#bar1")
-      capybara_page.visit("/form")
-      attribute.should == "Creedence Rlearwater Revival"
-    end
+    it { attribute("#attr1").should == "led zeppelin" }
+    it { attribute("#field1").should == "Creedence Rlearwater Revival" }
   end
 
   describe "delegators" do
-    let(:attribute) { Capybara::PageObject::Attribute.new(capybara_page, "field1", "#bar1") }
-    subject { attribute }
+    subject { attribute("#field1") }
     it { should delegate(:include?).to(:element_value) }
     it { should delegate(:blank?).to(:element_value) }
     it { should delegate(:==).to(:element_value) }
     it { should delegate(:to_s).to(:element_value) }
     it { should delegate(:set).to(:element).with_arguments("foo.bar") }
+  end
+
+  describe "validation_error" do
+    it "should extract validation error from form" do
+      capybara_page.visit("/form_with_rails_validation_errors")
+      attribute("#user_email").validation_error.should == "can't be blank"
+    end
   end
 end

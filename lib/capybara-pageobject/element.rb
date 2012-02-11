@@ -9,16 +9,18 @@ module Capybara
         @selector = selector
       end
 
-      def element
-        @page.find(@selector)
-      end
-
       def visible?
         element.visible? rescue false
       end
 
       def to_s
         @name
+      end
+
+      protected
+
+      def element
+        @page.find(@selector)
       end
     end
   end
