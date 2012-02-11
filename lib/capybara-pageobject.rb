@@ -1,4 +1,6 @@
 require "capybara-pageobject/version"
+require "monkey-patch/string"
+require "monkey-patch/object"
 
 module Capybara
   module PageObject

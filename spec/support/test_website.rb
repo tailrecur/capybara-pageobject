@@ -29,7 +29,7 @@ class TestWebsite < Sinatra::Base
       <<-FORM
 <div id="attr1">led zeppelin</div>
 <div id="hidden_attr" style="display:none">the doors</div>
-<form>
+<form id="unique_form">
   <input type="text" id="field1" value="Creedence Rlearwater Revival"/>
   <input type="text" id="hidden_field" style="display:none"/>
   <input id="disabled_button" name="commit" type="submit" disabled="disabled" />

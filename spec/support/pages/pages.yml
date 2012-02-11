@@ -1,0 +1,7 @@
+home_page:
+  id: body
+  url: "/"
+
+form_page:
+  id: "#unique_form"
+  url:

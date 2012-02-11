@@ -1,26 +1,27 @@
-require 'active_support'
+module Capybara
+  module PageObject
+    class Website
 
-class Website
-  extend ActiveSupport::Memoizable
-  
-  attr_reader :current_page
-    
-  def initialize page
-    @page = page
-    @pages_data = YAML.load_file(File.dirname(__FILE__) + '/pages.yml')
-    
-    @pages_data.each do |page, page_data|
-      page_class = (page_data["class"] || "Page").constantize
-      self.class.send(:define_method, page) do
-        page_class.new(@page, page_data)
+      def initialize page
+        @page = page
+        @pages_data = YAML.load_file('pages/pages.yml')
+
+        @pages_data.each do |page, page_data|
+          page_class = (page_data["class"] || "Capybara::PageObject::Page").constantize
+          unless page_class.ancestors.include?(Capybara::PageObject::Page)
+            raise "Custom page class '#{page_class}' should extend Capybara::PageObject::Page"
+          end
+          wrapper = lambda { |&page_actions| on_page_perform(page_actions) { page_class.new(@page, page_data.merge("name" => page)) } }
+          self.class.send(:define_method, page, wrapper)
+        end
       end
-      
-      class_eval { memoize page }
+
+      private
+
+      def on_page_perform(page_actions)
+        page = yield
+        page_actions ? page.instance_eval(&page_actions) : page
+      end
     end
-  end
-  
-  def visit page
-    @current_page = self.send(page)
-    @current_page.visit
   end
 end

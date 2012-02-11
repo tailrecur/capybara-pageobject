@@ -6,13 +6,13 @@ module Capybara
       def initialize page, page_data
         @page = page
         @page_data = page_data
-        !page_data["attributes"].nil? and page_data["attributes"].each do |attribute, selector|
+        page_data["attributes"].present? and page_data["attributes"].each do |attribute, selector|
           self.class.send(:define_method, attribute) do |value=nil|
             Capybara::PageObject::Attribute.new(page, attribute, selector).tap { |node| node.set(value) if value }
           end
         end
 
-        !page_data["actions"].nil? and page_data["actions"].each do |attribute, selector|
+        page_data["actions"].present? and page_data["actions"].each do |attribute, selector|
           self.class.send(:define_method, attribute) { Action.new(page, attribute, selector) }
         end
       end
