@@ -1,10 +1,10 @@
 require 'spec_helper'
 
-def page_object(page_data)
-  Capybara::PageObject::Page.new capybara_page, page_data
-end
-
 describe "Page" do
+  def page_object(page_data)
+    Capybara::PageObject::Page.new capybara_page, page_data
+  end
+
   describe "on form page" do
     let(:page_data) { {
         "url" => "/form",

@@ -2,12 +2,12 @@ require 'spec_helper'
 
 
 describe "Element" do
-  before(:each) do
-    capybara_page.visit("/form")
-  end
-
   def element(selector)
     Capybara::PageObject::Element.new(capybara_page, "attr", selector)
+  end
+
+  before(:each) do
+    capybara_page.visit("/form")
   end
 
   describe "visible?" do

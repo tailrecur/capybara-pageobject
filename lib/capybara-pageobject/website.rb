@@ -2,8 +2,9 @@ module Capybara
   module PageObject
     class Website
 
-      def initialize page
+      def initialize page, context
         @page = page
+        @context = context
         @pages_data = YAML.load_file('pages/pages.yml')
 
         @pages_data.each do |page, page_data|
@@ -20,6 +21,7 @@ module Capybara
 
       def on_page_perform(page_actions)
         page = yield
+        page.context = @context
         page_actions ? page.instance_eval(&page_actions) : page
       end
     end

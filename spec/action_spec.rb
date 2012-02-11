@@ -1,10 +1,10 @@
 require 'spec_helper'
 
-def action(selector)
-  Capybara::PageObject::Action.new(capybara_page, "action", selector)
-end
-
 describe "action" do
+  def action(selector)
+    Capybara::PageObject::Action.new(capybara_page, "action", selector)
+  end
+
   before(:each) do
     capybara_page.visit("/form")
   end

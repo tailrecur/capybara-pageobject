@@ -1,10 +1,10 @@
 require 'spec_helper'
 
-def attribute(selector)
-  Capybara::PageObject::Attribute.new(capybara_page, "attr", selector)
-end
-
 describe "Attribute" do
+  def attribute(selector)
+    Capybara::PageObject::Attribute.new(capybara_page, "attr", selector)
+  end
+
   before(:each) do
     capybara_page.visit("/form")
   end

@@ -3,6 +3,8 @@ module Capybara
     class Page
       include CapybaraHelper
 
+      attr_accessor :context
+
       def initialize page, page_data
         @page = page
         @page_data = page_data
@@ -34,7 +36,7 @@ module Capybara
       end
 
       def method_missing method, *args
-        page.respond_to?(method) ? page.send(method, *args) : super
+        page.respond_to?(method) ? page.send(method, *args) : context.send(method, *args)
       end
 
       protected
