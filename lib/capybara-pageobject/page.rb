@@ -1,6 +1,8 @@
 module Capybara
   module PageObject
     class Page
+      include CapybaraHelper
+
       def initialize page, page_data
         @page = page
         @page_data = page_data
@@ -31,24 +33,14 @@ module Capybara
         page.respond_to?(method) ? page.send(method, args) : super
       end
 
-      protected
-
       def to_s
         @page_data[:name]
       end
 
+      protected
+
       def page
         @page
-      end
-
-      private
-
-      def if_absent(default)
-        begin
-          yield
-        rescue Capybara::ElementNotFound
-          default
-        end
       end
     end
   end

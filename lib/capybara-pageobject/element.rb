@@ -2,6 +2,7 @@ module Capybara
   module PageObject
     class Element
       extend Forwardable
+      include CapybaraHelper
 
       def initialize page, name, selector
         @page = page
@@ -10,13 +11,8 @@ module Capybara
       end
 
       def visible?
-        begin
-          element.visible?
-        rescue Capybara::ElementNotFound
-          false
-        end
+        if_absent(false) { element.visible? }
       end
-
 
       protected
 
