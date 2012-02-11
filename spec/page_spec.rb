@@ -45,6 +45,16 @@ describe "Page" do
       it { should respond_to(:action1) }
       it { should respond_to(:action2) }
     end
+
+    describe "method_missing" do
+      it "should delegate to capybara_page if it has method" do
+        page_object({}).find_by_id("attr1")
+      end
+
+      it "should raise method missing if both capybar_page and itself don't have method'" do
+        expect { page_object({}).does_not_exist }.to raise_error(NoMethodError, /undefined method `does_not_exist'/)
+      end
+    end
   end
 
   describe "visit" do
@@ -89,4 +99,6 @@ describe "Page" do
       page.page_title.should be_empty
     end
   end
+
+  it { page_object({"name" => "page"}).to_s.should == "'page: page'" }
 end

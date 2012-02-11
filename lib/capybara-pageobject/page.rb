@@ -29,12 +29,12 @@ module Capybara
         if_absent("") { page.find("head title").text }
       end
 
-      def method_missing method, *args
-        page.respond_to?(method) ? page.send(method, args) : super
+      def to_s
+        "'page: #{@page_data["name"]}'"
       end
 
-      def to_s
-        @page_data[:name]
+      def method_missing method, *args
+        page.respond_to?(method) ? page.send(method, *args) : super
       end
 
       protected
