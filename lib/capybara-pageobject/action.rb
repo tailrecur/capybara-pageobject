@@ -6,6 +6,10 @@ module Capybara
       def disabled?
         element[:disabled]
       end
+
+      def to_s
+        "'action: #{@name}'"
+      end
     end
   end
 end

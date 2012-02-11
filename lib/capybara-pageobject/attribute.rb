@@ -5,7 +5,7 @@ module Capybara
     class Attribute < Element
       include Capybara::DSL
 
-      def_delegators :element_value, :blank?, :==, :include?, :to_s
+      def_delegators :element_value, :blank?, :==, :include?
       def_delegators :element, :set
 
       def validation_error
@@ -13,6 +13,10 @@ module Capybara
           Capybara.using_wait_time(0) { error_field.has_selector?(@selector) }
         end
         error_field.find(".error_message").text if error_field
+      end
+
+      def to_s
+        "'attribute: #{@name}'"
       end
 
       private

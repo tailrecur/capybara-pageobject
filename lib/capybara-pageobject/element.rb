@@ -10,12 +10,13 @@ module Capybara
       end
 
       def visible?
-        element.visible? rescue false
+        begin
+          element.visible?
+        rescue Capybara::ElementNotFound
+          false
+        end
       end
 
-      def to_s
-        @name
-      end
 
       protected
 

@@ -19,7 +19,6 @@ describe "Attribute" do
     it { should delegate(:include?).to(:element_value) }
     it { should delegate(:blank?).to(:element_value) }
     it { should delegate(:==).to(:element_value) }
-    it { should delegate(:to_s).to(:element_value) }
     it { should delegate(:set).to(:element).with_arguments("foo.bar") }
   end
 
@@ -29,4 +28,6 @@ describe "Attribute" do
       attribute("#user_email").validation_error.should == "can't be blank"
     end
   end
+
+  it { attribute("#attr1").to_s.should == "'attribute: attr'" }
 end

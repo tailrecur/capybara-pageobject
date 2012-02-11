@@ -15,4 +15,5 @@ describe "action" do
   end
 
   it { action("#disabled_button").should be_disabled }
+  it { action("#attr1").to_s.should == "'action: action'" }
 end

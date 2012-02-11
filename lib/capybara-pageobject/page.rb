@@ -16,15 +16,19 @@ module Capybara
       end
 
       def visit
-        page.visit(@page_data["url"])
+        @page_data["url"] ? page.visit(@page_data["url"]) : raise("url not defined for page")
       end
 
       def visible?
-        page.find(@page_data["id"]).visible?
-      end
-
-      def have_invisible(attribute)
-        page.has_no_selector?(selector_for(attribute))
+        if @page_data["id"]
+          begin
+            page.find(@page_data["id"]).visible?
+          rescue Capybara::ElementNotFound
+            false
+          end
+        else
+          raise("id not defined for page")
+        end
       end
 
       def page_title
