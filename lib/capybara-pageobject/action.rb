@@ -1,5 +1,3 @@
-require File.dirname(__FILE__) + '/element'
-
 module Capybara
   module PageObject
     class Action < Element

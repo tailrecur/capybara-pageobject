@@ -1,6 +1,3 @@
-require File.expand_path(File.dirname(__FILE__) + "/attribute")
-require File.expand_path(File.dirname(__FILE__) + "/action")
-
 module Capybara
   module PageObject
     class Page
