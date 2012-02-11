@@ -29,6 +29,8 @@ class TestWebsite < Sinatra::Base
 <form>
   <input type="text" id="field1" value="Creedence Rlearwater Revival"/>
   <input type="text" id="hidden_field" style="display:none"/>
+  <input id="disabled_button" name="commit" type="submit" disabled="disabled" />
+  <input id="register_submit" name="commit" type="submit" value="Register" />
 <form>
       FORM
     end
@@ -49,7 +51,10 @@ class TestWebsite < Sinatra::Base
             <div class="field_with_errors"><label for="user_password">Password</label></div>
             <div class="field_with_errors"><input id="user_password" name="user[password]" size="30" title="At least 8 characters" type="password" /><span class="error_message">doesn't match confirmation</span></div><span class="required">*</span>
         </li>
-        <li class="submit"><input id="register_submit" name="commit" type="submit" value="Register" /></li>
+        <li class="submit">
+          <input id="disabled_button" name="commit" type="submit" disabled="disabled" />
+          <input id="register_submit" name="commit" type="submit" value="Register" />
+        </li>
     </ol>
 </form>
       FORM
