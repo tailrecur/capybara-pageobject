@@ -1,5 +1,9 @@
 require 'spec_helper'
 
+def page_object(page_data)
+  Capybara::PageObject::Page.new capybara_page, page_data
+end
+
 describe "Page" do
   describe "on form page" do
     let(:page_data) { {
@@ -17,7 +21,7 @@ describe "Page" do
     } }
 
     before { capybara_page.visit("/form") }
-    let(:page) { Capybara::PageObject::Page.new capybara_page, page_data }
+    let(:page) { page_object(page_data) }
     subject { page }
 
     describe "attributes" do
@@ -45,30 +49,44 @@ describe "Page" do
 
   describe "visit" do
     it "should go to page mentioned in url" do
-      Capybara::PageObject::Page.new(capybara_page, {"url" => "/form_with_rails_validation_errors"}).visit
+      page_object({"url" => "/form_with_rails_validation_errors"}).visit
       capybara_page.should have_content "Email Address"
     end
 
     it "should fail if url is not specified" do
-      expect { Capybara::PageObject::Page.new(capybara_page, {}).visit }.to raise_error(Exception, "url not defined for page")
+      expect { page_object({}).visit }.to raise_error(Exception, "url not defined for page")
     end
   end
 
   describe "visible?" do
     it "should return true if id element is visible" do
-      page = Capybara::PageObject::Page.new(capybara_page, {"url" => "/form_with_rails_validation_errors", "id" => "#registration-form"})
+      page = page_object({"url" => "/form_with_rails_validation_errors", "id" => "#registration-form"})
       page.visit
       page.should be_visible
     end
 
     it "should return false if id element is not present" do
-      page = Capybara::PageObject::Page.new(capybara_page, {"url" => "/form_with_rails_validation_errors", "id" => "#does-not-exist"})
+      page = page_object({"url" => "/form_with_rails_validation_errors", "id" => "#does-not-exist"})
       page.visit
       page.should_not be_visible
     end
 
     it "should fail if id is not specified" do
-      expect { Capybara::PageObject::Page.new(capybara_page, {}).visible? }.to raise_error(Exception, "id not defined for page")
+      expect { page_object({}).visible? }.to raise_error(Exception, "id not defined for page")
+    end
+  end
+
+  describe "page_title" do
+    it "should return page title if page has title in head" do
+      page = page_object({"url" => "/form"})
+      page.visit
+      page.page_title.should == "Classic Rock"
+    end
+
+    it "should return empty if title is not defined" do
+      page = page_object({"url" => "/div"})
+      page.visit
+      page.page_title.should be_empty
     end
   end
 end

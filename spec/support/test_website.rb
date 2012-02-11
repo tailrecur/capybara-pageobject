@@ -9,6 +9,9 @@ class TestWebsite < Sinatra::Base
   def page_with
     <<-BODY
 <html>
+<head>
+  <title>Classic Rock</title>
+</head>
 <body>
   <p>Hello World!!</p>
   #{yield}
@@ -17,8 +20,8 @@ class TestWebsite < Sinatra::Base
     BODY
   end
 
-  get '/' do
-    page_with { '<div id="foo1">led zeppelin</div><div id="foo2">the doors</div>' }
+  get '/div' do
+    '<div id="foo1">led zeppelin</div><div id="foo2">the doors</div>'
   end
 
   get '/form' do

@@ -20,19 +20,11 @@ module Capybara
       end
 
       def visible?
-        if @page_data["id"]
-          begin
-            page.find(@page_data["id"]).visible?
-          rescue Capybara::ElementNotFound
-            false
-          end
-        else
-          raise("id not defined for page")
-        end
+        @page_data["id"] ? if_absent(false) { page.find(@page_data["id"]).visible? } : raise("id not defined for page")
       end
 
       def page_title
-        page.find("head title").text
+        if_absent("") { page.find("head title").text }
       end
 
       def method_missing method, *args
@@ -47,6 +39,16 @@ module Capybara
 
       def page
         @page
+      end
+
+      private
+
+      def if_absent(default)
+        begin
+          yield
+        rescue Capybara::ElementNotFound
+          default
+        end
       end
     end
   end
