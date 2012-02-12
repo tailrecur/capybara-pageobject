@@ -14,9 +14,9 @@ Install as a gem:
 
 Add the following section to your env.rb or acceptance_helper:
 
-Capybara::PageObject.configure do |config|
-  config.page_file = 'support/pages/pages.yml'
-end
+    Capybara::PageObject.configure do |config|
+      config.page_file = 'support/pages/pages.yml'
+    end
 
 The gem makes a method 'website' available to your tests.
 
@@ -96,6 +96,9 @@ You can them specify it in the YAML file as below:
       url: "/sign_in"
       class: CustomLoginForm
 
-
+===TODO
+* XPath selectors
+* Dynamic urls
+* Standard setters ie website.login_form.email_address = "foo bar"
 
 
