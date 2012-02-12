@@ -4,7 +4,7 @@ module Capybara
 
       def initialize url
         raise 'url is not defined' if url.blank?
-        @url = url
+        @url = url.dup
       end
 
       def format url_params

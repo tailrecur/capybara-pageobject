@@ -6,6 +6,13 @@ describe "UrlParser" do
       Capybara::PageObject::UrlParser.new("/users/1").format({}).should == "/users/1"
     end
 
+    it "should duplicate url string" do
+      url = "/users/:user_id"
+      parser = Capybara::PageObject::UrlParser.new(url)
+      parser.format(user_id: 2)
+      url.should == "/users/:user_id"
+    end
+
     it "should raise error if dynamic url is called without params" do
       expect { Capybara::PageObject::UrlParser.new("/users/:id").format({}) }.to raise_error(Exception, 'Please pass url parameters: [:id]')
     end

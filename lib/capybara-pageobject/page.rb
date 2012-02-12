@@ -21,10 +21,7 @@ module Capybara
       end
 
       def visit url_params={}
-        url = UrlParser.new(@page_data["url"]).format(url_params)
-        raise "Please pass required method parameters: ['user_id']" unless url_params
-
-        @page_data["url"] ? page.visit(@page_data["url"]) : raise("url not defined for page")
+        page.visit(UrlParser.new(@page_data["url"]).format(url_params))
       end
 
       def visible?
