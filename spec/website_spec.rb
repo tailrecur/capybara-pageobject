@@ -5,7 +5,7 @@ def with_yaml page_data
 end
 
 describe "Website" do
-  let(:website) { Capybara::PageObject::Website.new(capybara_page, self) }
+  let(:website) { Capybara::PageObject::Website.new(capybara_page, self, 'pages/pages.yml') }
   subject { website }
 
   describe "create getters" do
@@ -30,7 +30,7 @@ describe "Website" do
 
     it "should fail if custom class does not extend Page class" do
       with_yaml("home_page" => {"class" => "Object"})
-      expect { Capybara::PageObject::Website.new(capybara_page, self) }.to raise_error(Exception, "Custom page class 'Object' should extend Capybara::PageObject::Page")
+      expect { Capybara::PageObject::Website.new(capybara_page, self, 'pages/pages.yml') }.to raise_error(Exception, "Custom page class 'Object' should extend Capybara::PageObject::Page")
     end
   end
 

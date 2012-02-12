@@ -16,12 +16,18 @@ module Capybara
         yield self
       end
 
-      def pages_file file
-        @pages_file = file
+      def page_file= file
+        @page_file = file
       end
 
       def current_website
-        @website ||= Capybara::PageObject::Website.new(page, @pages_file)
+        raise "Please specify pages file path" unless @page_file
+        @website ||= Capybara::PageObject::Website.new(Capybara.current_session, self, @pages_file)
+      end
+
+      def website_class= klass
+        raise "website class #{klass} should extend Capybara::PageObject::Website" unless klass.ancestors.include?(Capybara::PageObject::Website)
+        @website = klass.new(Capybara.current_session, self, @pages_file)
       end
     end
 
@@ -30,9 +36,7 @@ module Capybara
         Capybara::PageObject.current_website
       end
     end
-
-    def included(base)
-      base.send(:include, Capybara::PageObject::IncludedMethods)
-    end
   end
 end
+
+include Capybara::PageObject::IncludedMethods

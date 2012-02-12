@@ -2,10 +2,10 @@ module Capybara
   module PageObject
     class Website
 
-      def initialize page, context
+      def initialize page, context, page_file
         @page = page
         @context = context
-        @pages_data = YAML.load_file('pages/pages.yml')
+        @pages_data = YAML.load_file(page_file)
 
         @pages_data.each do |page, page_data|
           page_class = (page_data["class"] || "Capybara::PageObject::Page").constantize
