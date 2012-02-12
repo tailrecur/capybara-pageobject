@@ -5,6 +5,8 @@ module Capybara
       def initialize page, context, page_file
         @page = page
         @context = context
+
+        raise "Please specify page file path" unless page_file.present?
         @pages_data = YAML.load_file(page_file)
 
         @pages_data.each do |page, page_data|

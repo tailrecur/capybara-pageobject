@@ -21,6 +21,10 @@ describe "Website" do
     end
   end
 
+  it "should raise error if page_file is not specified" do
+    expect { Capybara::PageObject::Website.new(capybara_page, self, '') }.to raise_error(Exception, "Please specify page file path")
+  end
+
   describe "custom page class" do
     it "should instantiate custom class if specified" do
       class CustomPage < Capybara::PageObject::Page; end
