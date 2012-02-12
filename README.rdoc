@@ -49,6 +49,15 @@ You can navigate to these pages as below:
     website.home_page.visit
     website.login_form.visit
 
+=== Dynamic urls
+For RESTful dynamci urls, use the following definition:
+    comment_page:
+      url: "/users/:user_id/comments/:comment_id"
+
+You can then visit the comments page as below:
+
+    website.comments_page.visit user_id: 3, comment_id: 1
+
 === id
 The id attribute specifies the CSS3 selector which uniquely identifies that the page is loaded.
 You can use this as below:
@@ -98,7 +107,6 @@ You can them specify it in the YAML file as below:
 
 ===TODO
 * XPath selectors
-* Dynamic urls
 * Standard setters ie website.login_form.email_address = "foo bar"
 
 
