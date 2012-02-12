@@ -5,7 +5,7 @@ def with_yaml page_data
 end
 
 describe "Website" do
-  let(:website) { Capybara::PageObject::Website.new(capybara_page, self, 'pages/pages.yml') }
+  let(:website) { Capybara::PageObject::Website.new(capybara_page, 'pages/pages.yml') }
   subject { website }
 
   describe "create getters" do
@@ -22,7 +22,7 @@ describe "Website" do
   end
 
   it "should raise error if page_file is not specified" do
-    expect { Capybara::PageObject::Website.new(capybara_page, self, '') }.to raise_error(Exception, "Please specify page file path")
+    expect { Capybara::PageObject::Website.new(capybara_page, '') }.to raise_error(Exception, "Please specify page file path")
   end
 
   describe "custom page class" do
@@ -34,16 +34,17 @@ describe "Website" do
 
     it "should fail if custom class does not extend Page class" do
       with_yaml("home_page" => {"class" => "Object"})
-      expect { Capybara::PageObject::Website.new(capybara_page, self, 'pages/pages.yml') }.to raise_error(Exception, "Custom page class 'Object' should extend Capybara::PageObject::Page")
+      expect { Capybara::PageObject::Website.new(capybara_page, 'pages/pages.yml') }.to raise_error(Exception, "Custom page class 'Object' should extend Capybara::PageObject::Page")
     end
   end
 
   describe "page block" do
-    it "should evaluate calls within the block on page" do
+    it "should resolve rspec matchers within the block on page" do
       with_yaml("home_page" => {"url" => "/form", "attributes" => {"attribute" => "#attr1", "field" => "#hidden_field"}})
       website.home_page.visit
       website.home_page do
         attribute.should == "led zeppelin"
+        attribute.should be_present
         field.should_not be_visible
       end
     end

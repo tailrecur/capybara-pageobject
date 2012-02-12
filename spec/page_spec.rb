@@ -100,5 +100,10 @@ describe "Page" do
     end
   end
 
+  describe "include rspec matchers" do
+    it { page_object({}).be_visible }
+    it { page_object({}).be_present }
+  end
+
   it { page_object({"name" => "page"}).to_s.should == "'page: page'" }
 end

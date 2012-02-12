@@ -21,13 +21,19 @@ module Capybara
       end
 
       def current_website
-        @website ||= Capybara::PageObject::Website.new(Capybara.current_session, self, @page_file)
+        @website ||= instantiate_website Capybara::PageObject::Website
       end
 
       def website_class= klass
         raise "website class #{klass} should extend Capybara::PageObject::Website" unless klass.ancestors.include?(Capybara::PageObject::Website)
-        @website = klass.new(Capybara.current_session, self, @page_file)
+        @website = instantiate_website klass
       end
+    end
+
+    private
+
+    def self.instantiate_website klass
+      klass.new(Capybara.current_session, @page_file)
     end
 
     module IncludedMethods

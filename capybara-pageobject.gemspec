@@ -25,4 +25,5 @@ Gem::Specification.new do |s|
   s.add_development_dependency "capybara"
 
   s.add_runtime_dependency("capybara", [">= 1.0.0"])
+  s.add_runtime_dependency("rspec-expectations")
 end

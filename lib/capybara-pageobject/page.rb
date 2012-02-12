@@ -2,6 +2,7 @@ module Capybara
   module PageObject
     class Page
       include CapybaraHelper
+      include RSpec::Matchers
 
       attr_accessor :context
 
@@ -36,7 +37,7 @@ module Capybara
       end
 
       def method_missing method, *args
-        page.respond_to?(method) ? page.send(method, *args) : context.send(method, *args)
+        page.respond_to?(method) ? page.send(method, *args) : super
       end
 
       protected
