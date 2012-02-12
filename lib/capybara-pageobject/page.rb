@@ -1,8 +1,11 @@
+require 'capybara/rspec/matchers'
+
 module Capybara
   module PageObject
     class Page
       include CapybaraHelper
       include RSpec::Matchers
+      include Capybara::RSpecMatchers
 
       attr_accessor :context
 
