@@ -87,6 +87,20 @@ describe "Page" do
     end
   end
 
+  describe "has_content?" do
+    before(:each) do
+      @page = page_object({"url" => "/form"})
+      @page.visit
+    end
+    it "should return true if content is present" do
+      @page.should have_content "led zeppelin"
+    end
+
+    it "should handle dates" do
+      @page.should have_content Date.parse("1983-01-01")
+    end
+  end
+
   describe "page_title" do
     it "should return page title if page has title in head" do
       page = page_object({"url" => "/form"})

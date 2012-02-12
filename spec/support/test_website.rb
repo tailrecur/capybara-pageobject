@@ -32,6 +32,7 @@ class TestWebsite < Sinatra::Base
     page_with do
       <<-FORM
 <div id="attr1">led zeppelin</div>
+<div>1983-01-01</div>
 <div id="hidden_attr" style="display:none">the doors</div>
 <form id="unique_form">
   <input type="text" id="field1" value="Creedence Rlearwater Revival"/>

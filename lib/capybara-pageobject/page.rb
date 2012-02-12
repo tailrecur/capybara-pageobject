@@ -28,6 +28,10 @@ module Capybara
         @page_data["id"] ? if_absent(false) { page.find(@page_data["id"]).visible? } : raise("id not defined for page")
       end
 
+      def has_content? content
+        page.has_content?(content.to_s)
+      end
+
       def page_title
         if_absent("") { page.find("head title").text }
       end
