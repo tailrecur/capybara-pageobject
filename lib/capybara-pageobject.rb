@@ -1,9 +1,11 @@
 require "capybara-pageobject/version"
 require "monkey-patch/string"
 require "monkey-patch/object"
+require "monkey-patch/hash"
 
 module Capybara
   module PageObject
+    autoload :UrlParser, 'capybara-pageobject/url_parser'
     autoload :Page, 'capybara-pageobject/page'
     autoload :CapybaraHelper, 'capybara-pageobject/capybara_helper'
     autoload :Element, 'capybara-pageobject/element'

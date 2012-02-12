@@ -24,6 +24,10 @@ class TestWebsite < Sinatra::Base
     '<div id="foo1">led zeppelin</div><div id="foo2">the doors</div>'
   end
 
+  get '/users/3/comments/2' do
+    '<div id="user_home">User data</div>'
+  end
+
   get '/form' do
     page_with do
       <<-FORM

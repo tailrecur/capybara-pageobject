@@ -63,8 +63,9 @@ describe "Page" do
       capybara_page.should have_content "Email Address"
     end
 
-    it "should fail if url is not specified" do
-      expect { page_object({}).visit }.to raise_error(Exception, "url not defined for page")
+    it "should visit pages with dynamic urls" do
+      page_object({"url" => "/users/:user_id/comments/:id"}).visit(user_id: 3, id: 2)
+      capybara_page.should have_content "User data"
     end
   end
 
