@@ -1,0 +1,101 @@
+= Capybara-PageObject
+
+capybara-pageobject helps you easily define page objects for capybara based tests.
+Page objects allow you to abstract your tests from low-level UI bindings.
+This allows you to easily adapt your tests to UI changes.
+
+== Setup
+
+Install as a gem:
+
+    sudo gem install capybara-pageobject
+
+== Usage
+
+Add the following section to your env.rb or acceptance_helper:
+
+Capybara::PageObject.configure do |config|
+  config.page_file = 'support/pages/pages.yml'
+end
+
+The gem makes a method 'website' available to your tests.
+
+
+== Page definitions
+
+Page definitions are specified in a YAML file. for eg:
+
+    home_page:
+      id: "#header_banner"
+      url: "/"
+    login_form:
+      id: "#login-form"
+      url: "/sign_in"
+      attributes:
+        email_address: "#email"
+        password: "#password.red"
+        error_message: "#alert_message"
+      actions:
+        login_button: "#login_submit"
+
+=== page
+Each first-level definition specifies a page.
+The above YAML declares that you have two pages home_page and login_form.
+
+=== url
+The url attribute specifies the url of the page.
+You can navigate to these pages as below:
+
+    website.home_page.visit
+    website.login_form.visit
+
+=== id
+The id attribute specifies the CSS3 selector which uniquely identifies that the page is loaded.
+You can use this as below:
+
+    website.login_form.visit
+    website.login_form.should be_visible
+
+=== attributes
+Each attribute on the page is specified alongwith the CSS3 selector to uniquely identify it.
+Each attribute definition can be used as below:
+
+    website.login_form.email_address "foo bar"              #Set email address to 'foo bar'
+    website.login_form.some_checkbox true                   #Check checkbox
+    website.login_form.email_address.should == "foo bar"    #Assert email address is equal to 'foo bar'
+    website.login_form.email_address.should be_visible      #Assert email address is visible
+
+Attributes also work with text content. for eg:
+
+    website.login_form.error_message.should == "Some error occurred"
+
+=== actions
+Any clickable (button or link) element on the page is defined as an action.
+Each action definition can be used as below:
+
+    website.login_form.login_button.click
+    website.login_form.login_button.should be_disabled
+    website.login_form.login_button.should be_visible
+
+==Page block mode
+To make your tests more readable, you can specify page interactions within a block. for eg:
+
+     website.login_form do
+        email_address 'foo@example.com'
+        password 'testing'
+        login_button.click
+        error_message.should be_visible
+     end
+
+===Custom Page Class
+If you need to define custom actions on the page, add a class which extends Capybara::PageObject::Page
+You can them specify it in the YAML file as below:
+
+    login_form:
+      id: "#login-form"
+      url: "/sign_in"
+      class: CustomLoginForm
+
+
+
+
